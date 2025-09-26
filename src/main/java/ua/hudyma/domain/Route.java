@@ -10,4 +10,11 @@ public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String routeId;
+    @ManyToOne
+    @JoinColumn(name = "departure_station_id")
+    private Station departureStation;
+    @ManyToOne
+    @JoinColumn(name = "arrival_station_id")
+    private Station arrivalStation;
 }

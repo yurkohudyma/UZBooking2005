@@ -12,16 +12,16 @@ import static java.time.LocalDateTime.now;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    /*@ExceptionHandler(CrewMemberNotFoundException.class)
+   @ExceptionHandler(StationCreationException.class)
     public ResponseEntity<ErrorResponse> handleRideAllreadyAcceptedException(
-            CrewMemberNotFoundException ex) {
+           StationCreationException ex) {
         var error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 now()
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }*/
+    }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         var error = new ErrorResponse(

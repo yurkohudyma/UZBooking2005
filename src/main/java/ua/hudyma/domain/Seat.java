@@ -10,4 +10,7 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL)
+    private Ticket ticket;
 }

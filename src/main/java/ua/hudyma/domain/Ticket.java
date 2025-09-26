@@ -15,8 +15,10 @@ public class Ticket {
     private Long id;
     private String ticketId;
     private String trainNumber;
-    private Station departureStation;
-    private Station arrivalStation;
+    private String departureStationId;
+    private String arrivalStationId;
+    @OneToOne
+    @JoinColumn(name = "seat_id")
     private Seat seat;
     @Positive
     private BigDecimal ticketPrice;

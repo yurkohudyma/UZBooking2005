@@ -3,6 +3,7 @@ package ua.hudyma.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import ua.hudyma.enums.PassengerStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,5 +27,5 @@ public class Passenger {
     private List<Notification> notificationsList = new ArrayList<>();
     @Enumerated(value = EnumType.STRING)
     private PassengerStatus passengerStatus;
-    public enum PassengerStatus {ACTIVE, DISABLED, SYSTEM}
+
 }
