@@ -12,9 +12,9 @@ import static java.time.LocalDateTime.now;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-   @ExceptionHandler(StationCreationException.class)
+   @ExceptionHandler(EntityNotCreatedException.class)
     public ResponseEntity<ErrorResponse> handleRideAllreadyAcceptedException(
-           StationCreationException ex) {
+           EntityNotCreatedException ex) {
         var error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),

@@ -17,6 +17,22 @@ public class IdGenerator {
         return letters + numbers;
     }
 
+    ////CBFB48A0-AC1D24F1-0001
+    public static String generateUzTicketId (){
+        var firstPart = generateRandomUppercaseLetters(4) +
+                generateRandomDigits(2)
+                + generateRandomUppercaseLetters(1)
+                + generateRandomDigits(1);
+        var secondPart = generateRandomUppercaseLetters(2)
+                + generateRandomDigits(1)
+                + generateRandomUppercaseLetters(1)
+                + generateRandomDigits(2)
+                + generateRandomUppercaseLetters(1)
+                + generateRandomDigits(1);
+        var thirdPart = generateRandomDigits(4);
+        return String.format("%s-%s-%s", firstPart, secondPart, thirdPart);
+    }
+
     private static String generateRandomUppercaseLetters(int length) {
         return secureRandom
                 .ints('A',

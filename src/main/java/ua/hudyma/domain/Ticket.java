@@ -14,9 +14,7 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String ticketId;
-    private String trainNumber;
-    private String departureStationId;
-    private String arrivalStationId;
+    private String routeId;
     @OneToOne
     @JoinColumn(name = "seat_id")
     private Seat seat;

@@ -11,6 +11,8 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String seatId;
+
     @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL)
     private Ticket ticket;
 }

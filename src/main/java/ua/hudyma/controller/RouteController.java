@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ua.hudyma.domain.Station;
-import ua.hudyma.service.StationService;
+import ua.hudyma.dto.RouteRequestDto;
+import ua.hudyma.service.RouteService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/stations")
+@RequestMapping("/routes")
 @Log4j2
-public class StationController {
-    private final StationService stationService;
+public class RouteController {
+    private final RouteService routeService;
 
     @PostMapping
-    public ResponseEntity<?> addStations (@RequestBody Station[] stations){
-        return ResponseEntity.status(stationService.addAllStations (stations))
-                .body("Saved " + stations.length + " stations");
+    public ResponseEntity<?> addAllRoutes (@RequestBody RouteRequestDto[] routeRequestDto){
+        return ResponseEntity.status(routeService.addAll (routeRequestDto))
+                .body("Saved " + routeRequestDto.length + " routes");
     }
 }
