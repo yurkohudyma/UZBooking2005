@@ -17,4 +17,7 @@ public class Route {
     @ManyToOne
     @JoinColumn(name = "arrival_station_id")
     private Station arrivalStation;
+    @OneToOne
+    @JoinColumn(name = "timetable_id")
+    private Timetable timetable;
 }

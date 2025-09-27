@@ -24,7 +24,7 @@ public class TicketService {
 
 
     public HttpStatus addTicket(TicketRequestDto requestDto) {
-        if (checkObligatoryField(requestDto)){
+        if (checkObligatoryFields(requestDto)){
             throw new DtoObligatoryFieldsAreNullException("Some dto compulsory fields NOT provided");
         }
         var ticket = new Ticket();
@@ -49,7 +49,7 @@ public class TicketService {
         return HttpStatus.CREATED;
     }
 
-    private boolean checkObligatoryField(TicketRequestDto requestDto) {
+    private boolean checkObligatoryFields(TicketRequestDto requestDto) {
         return requestDto.routeId() == null ||
                 requestDto.seatId() == null ||
                 requestDto.passengerId() == null ||

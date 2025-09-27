@@ -31,6 +31,8 @@ public class RouteService {
         route.setDepartureStation(departureStation);
         route.setArrivalStation(arrivalStation);
         return route;
+
+        //todo implement time and date for routes -> display in tickets
     }
 
     public HttpStatus addAll(RouteRequestDto[] routeRequestDto) {
