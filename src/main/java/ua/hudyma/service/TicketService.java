@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.hudyma.domain.Seat;
 import ua.hudyma.domain.Ticket;
-import ua.hudyma.domain.Timetable;
 import ua.hudyma.dto.TicketRequestDto;
+import ua.hudyma.dto.TicketResponseDto;
 import ua.hudyma.exception.DtoObligatoryFieldsAreNullException;
 import ua.hudyma.exception.EntityNotCreatedException;
 import ua.hudyma.exception.SeatIsTakenException;
@@ -19,6 +19,7 @@ import ua.hudyma.util.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +67,26 @@ public class TicketService {
             throw new EntityNotCreatedException("Ticket Not Added");
         }
         return HttpStatus.CREATED;
+    }
+
+    public List<TicketResponseDto> getTickets(Long passengerId) {
+        return ticketRepository
+                .findByPassengerIdOrderByDepartureDateAsc(passengerId)
+                .stream()
+                .map(ticket -> new TicketResponseDto(
+                        ticket.getTicketId(),
+                        ticket.getRouteId(),
+                        ticket.getSeat().getSeatId(),
+                        ticket.getTicketPrice(),
+                        getPassengerName(ticket),
+                        ticket.getDepartureDate(),
+                        ticket.getDepartureTime()
+                )).toList();
+    }
+
+    private static String getPassengerName(Ticket ticket) {
+        return ticket.getPassenger().getProfile().getName().concat(" ").concat(
+                ticket.getPassenger().getProfile().getSurname());
     }
 
     private boolean isSeatTaken(String seatId, String routeId) {

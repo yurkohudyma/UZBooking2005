@@ -54,8 +54,7 @@ public class NotificationService {
         if (generatedApronNumber == 1 || generatedApronNumber == apronQty) {
             return 1;
         }
-        var generatedTrack = new SecureRandom().nextInt(2);
-        return generatedTrack > 0 ? generatedTrack : generateApronNumber(2);
+        return new SecureRandom().nextBoolean() ? 1 : 2;
     }
 
     private static int generateApronNumber(Integer apronQuantity) {

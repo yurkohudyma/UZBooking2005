@@ -14,10 +14,11 @@ import ua.hudyma.service.NotificationService;
 public class NotificationController {
     private final NotificationService notificationService;
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<?> addNotification (@RequestParam Long passengerId){
         return ResponseEntity
                 .status(notificationService
                         .addNotification(passengerId)).body("Notification added");
     }
+
 }
