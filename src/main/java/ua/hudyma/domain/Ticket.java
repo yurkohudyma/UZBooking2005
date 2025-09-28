@@ -1,10 +1,13 @@
 package ua.hudyma.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "tickets")
@@ -23,4 +26,10 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    private LocalDate departureDate;
+    @Column(name = "departure_time")
+    @JsonFormat(pattern = "HH:mm")
+    private LocalTime departureTime;
+
 }

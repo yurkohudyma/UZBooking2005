@@ -12,9 +12,11 @@ import static java.time.LocalDateTime.now;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-   @ExceptionHandler(EntityNotCreatedException.class)
-    public ResponseEntity<ErrorResponse> handleRideAllreadyAcceptedException(
-           EntityNotCreatedException ex) {
+
+
+    @ExceptionHandler(DtoObligatoryFieldsAreNullException.class)
+    public ResponseEntity<ErrorResponse> handleDtoObligatoryFieldsAreNullException(
+            DtoObligatoryFieldsAreNullException ex) {
         var error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
@@ -22,6 +24,29 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(SeatIsTakenException.class)
+    public ResponseEntity<ErrorResponse> handleSeatIsTakenException(
+            SeatIsTakenException ex) {
+        var error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EntityNotCreatedException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotCreatedException(
+            EntityNotCreatedException ex) {
+        var error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         var error = new ErrorResponse(
@@ -32,5 +57,6 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public record ErrorResponse(int status, String message, LocalDateTime timestamp) {}
+    public record ErrorResponse(int status, String message, LocalDateTime timestamp) {
+    }
 }

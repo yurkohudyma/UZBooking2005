@@ -10,8 +10,8 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
+    private String text;
 }

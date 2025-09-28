@@ -19,6 +19,19 @@ public class RouteService {
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
 
+    public HttpStatus addAll(RouteRequestDto[] routeRequestDto) {
+        var routeList = Arrays
+                .stream(routeRequestDto)
+                .map(this::mapToRoute)
+                .toList();
+        try {
+            routeRepository.saveAll(routeList);
+        } catch (Exception e) {
+            throw new EntityNotCreatedException("Routes have not been added");
+        }
+        return HttpStatus.CREATED;
+    }
+
     private Route mapToRoute(RouteRequestDto dto) {
         var departureStation = stationRepository
                 .findByStationId(dto.departureStationId())
@@ -32,19 +45,6 @@ public class RouteService {
         route.setArrivalStation(arrivalStation);
         return route;
 
-        //todo implement time and date for routes -> display in tickets
-    }
 
-    public HttpStatus addAll(RouteRequestDto[] routeRequestDto) {
-        var routeList = Arrays
-                .stream(routeRequestDto)
-                .map(this::mapToRoute)
-                .toList();
-        try {
-            routeRepository.saveAll(routeList);
-        } catch (Exception e) {
-            throw new EntityNotCreatedException("Routes have not been added");
-        }
-        return HttpStatus.CREATED;
     }
 }

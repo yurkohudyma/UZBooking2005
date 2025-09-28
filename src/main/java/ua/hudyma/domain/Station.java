@@ -22,4 +22,5 @@ public class Station {
     private BigDecimal lat;
     @Column(nullable = false)
     private BigDecimal lon;
+    private Integer apronNumber;
 }

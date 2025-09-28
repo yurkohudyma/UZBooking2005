@@ -6,13 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import ua.hudyma.domain.Seat;
 import ua.hudyma.domain.Ticket;
+import ua.hudyma.domain.Timetable;
 import ua.hudyma.dto.TicketRequestDto;
 import ua.hudyma.exception.DtoObligatoryFieldsAreNullException;
 import ua.hudyma.exception.EntityNotCreatedException;
+import ua.hudyma.exception.SeatIsTakenException;
 import ua.hudyma.repository.PassengerRepository;
+import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.SeatRepository;
 import ua.hudyma.repository.TicketRepository;
 import ua.hudyma.util.IdGenerator;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +27,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final PassengerRepository passengerRepository;
     private final SeatRepository seatRepository;
+    private final RouteRepository routeRepository;
 
 
     public HttpStatus addTicket(TicketRequestDto requestDto) {
@@ -28,15 +35,27 @@ public class TicketService {
             throw new DtoObligatoryFieldsAreNullException("Some dto compulsory fields NOT provided");
         }
         var ticket = new Ticket();
-        ticket.setRouteId(requestDto.routeId());
+        var routeId = requestDto.routeId();
+        ticket.setRouteId(routeId);
         ticket.setTicketPrice(requestDto.ticketPrice());
         var passenger = passengerRepository
                 .findById(requestDto.passengerId())
                 .orElseThrow();
         ticket.setPassenger(passenger);
+
+        var route = routeRepository.findByRouteId(routeId).orElseThrow();
+        var timetable = route.getTimetable();
+        ticket.setDepartureDate(LocalDate
+                .from(timetable.getClosestDateAssigned()));
+        ticket.setDepartureTime(LocalTime
+                .from(timetable.getClosestDateAssigned()));
         var seat = new Seat();
-        //todo implement check of seat availability and vacancy
-        seat.setSeatId(requestDto.seatId());
+
+        var seatId = requestDto.seatId();
+        if (isSeatTaken (routeId, seatId)){
+            throw new SeatIsTakenException("Seat "+ seatId + " is taken");
+        }
+        seat.setSeatId(seatId);
         seatRepository.save(seat);
         ticket.setSeat(seat);
         ticket.setTicketId(IdGenerator.generateUzTicketId());
@@ -47,6 +66,10 @@ public class TicketService {
             throw new EntityNotCreatedException("Ticket Not Added");
         }
         return HttpStatus.CREATED;
+    }
+
+    private boolean isSeatTaken(String seatId, String routeId) {
+        return ticketRepository.existsByRouteIdAndSeatId(routeId, seatId) > 0;
     }
 
     private boolean checkObligatoryFields(TicketRequestDto requestDto) {
