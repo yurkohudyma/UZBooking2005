@@ -24,6 +24,8 @@ public class StationController {
                 .body("Saved " + stations.length + " stations");
     }
 
+    //todo show all route stations with timings
+
     @PostMapping("/addTimings")
     public ResponseEntity<String> addStationTimings(
             @RequestBody StationTimingRequestDto[] stationTimingsReqDto) {

@@ -6,6 +6,7 @@ import java.time.LocalTime;
 public record RouteSearchResponseDto(
         String routeId,
         LocalDateTime departureDate,
-        LocalTime departureTime
+        LocalTime departureTime,
+        LocalTime arrivalTime
 ) {
 }

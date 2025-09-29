@@ -50,6 +50,8 @@ public class SearchService {
                         .isAfter(LocalDateTime.now())) {
                     departureStation = st;
                     continue;
+                    //todo коротче, затик зі станціями... Жмеринка - Перемишль не знаходить тому, що
+                    //todo на момент переходу для знаходження Перемишля цикл вже проітерований до кінця (((
                 }
                 if (st.getStationId().equals(arrivalStationId) && departureStation != null) {
                     arrivalStation = st;
@@ -60,13 +62,12 @@ public class SearchService {
                 var resultDto = new RouteSearchResponseDto(
                         route.getRouteId(),
                         route.getTimetable().getClosestDepartureDateAssigned(),
-                        departureStation.getDepartureTime()
+                        departureStation.getDepartureTime(),
+                        arrivalStation.getArrivalTime()
                 );
                 resultList.add(resultDto);
             }
         }
         return resultList;
     }
-
-
 }
