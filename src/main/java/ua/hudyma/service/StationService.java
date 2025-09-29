@@ -42,6 +42,7 @@ public class StationService {
                     stationTiming.setTimetable(timetable);
                     stationTiming.setArrivalTime(st.arrivalTime());
                     stationTiming.setDepartureTime(st.departureTime());
+                    stationTiming.setStationId(st.stationId());
                     newStationTimings.add(stationTiming);
 
                     if (!stationRepository.existsByStationId(st.stationId())) {
