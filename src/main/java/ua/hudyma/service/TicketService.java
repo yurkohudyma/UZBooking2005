@@ -47,9 +47,9 @@ public class TicketService {
         var route = routeRepository.findByRouteId(routeId).orElseThrow();
         var timetable = route.getTimetable();
         ticket.setDepartureDate(LocalDate
-                .from(timetable.getClosestDateAssigned()));
+                .from(timetable.getClosestDepartureDateAssigned()));
         ticket.setDepartureTime(LocalTime
-                .from(timetable.getClosestDateAssigned()));
+                .from(timetable.getClosestDepartureDateAssigned()));
         var seat = new Seat();
 
         var seatId = requestDto.seatId();

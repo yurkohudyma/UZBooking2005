@@ -6,7 +6,7 @@ import lombok.Data;
 import ua.hudyma.enums.FrequencyType;
 
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table
@@ -20,6 +20,8 @@ public class Timetable {
     @Enumerated(value = EnumType.STRING)
     private FrequencyType frequencyType;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
-    private LocalDateTime closestDateAssigned;
+    private LocalDateTime closestDepartureDateAssigned;
+    @OneToMany(mappedBy = "timetable")
+    private List<StationTiming> interStationsList;
 
 }

@@ -9,12 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Timetable;
 import ua.hudyma.dto.TimetableRequestDto;
 import ua.hudyma.exception.DtoObligatoryFieldsAreNullException;
+import ua.hudyma.exception.EntityNotCreatedException;
 import ua.hudyma.exception.TimetableNotUpdatedException;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.TimetableRepository;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 
 import static java.time.LocalDateTime.now;
 
@@ -40,12 +40,12 @@ public class TimetableService {
         var timetable = new Timetable();
         timetable.setRoute(route);
         timetable.setFrequencyType(dto.frequencyType());
-        timetable.setClosestDateAssigned(dto.closestDateAssigned());
+        timetable.setClosestDepartureDateAssigned(dto.closestDateAssigned());
         route.setTimetable(timetable);
         try {
             timetableRepository.save(timetable);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new EntityNotCreatedException("timetable not added");
         }
         return HttpStatus.CREATED;
     }
@@ -63,12 +63,12 @@ public class TimetableService {
             timetableRepository
                     .findAll()
                     .stream()
-                    .filter(tt -> tt.getClosestDateAssigned().isBefore(now()))
+                    .filter(tt -> tt.getClosestDepartureDateAssigned().isBefore(now()))
                     .forEach(tt -> {
-                        tt.setClosestDateAssigned(updateClosestDate(tt));
+                        tt.setClosestDepartureDateAssigned(updateClosestDate(tt));
                         log.info("Timetable {} departure time has been updated to {}",
                                 tt.getId(),
-                                tt.getClosestDateAssigned());
+                                tt.getClosestDepartureDateAssigned());
                     });
         } catch (Exception e) {
             throw new TimetableNotUpdatedException("Timetable update failed");
@@ -77,9 +77,9 @@ public class TimetableService {
 
     private LocalDateTime updateClosestDate(Timetable tt) {
         return switch (tt.getFrequencyType()) {
-            case DAILY -> tt.getClosestDateAssigned().plusDays(1);
-            case ODD_EVEN ->  tt.getClosestDateAssigned().plusDays(2);
-            case SPECIAL -> tt.getClosestDateAssigned();
+            case DAILY -> tt.getClosestDepartureDateAssigned().plusDays(1);
+            case ODD_EVEN ->  tt.getClosestDepartureDateAssigned().plusDays(2);
+            case SPECIAL -> tt.getClosestDepartureDateAssigned();
         };
     }
 }

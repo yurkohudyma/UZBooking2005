@@ -20,7 +20,6 @@ public class Station {
     @OneToMany(mappedBy = "arrivalStation")
     private List<Route> arrivalRoutes;
     private BigDecimal lat;
-    @Column(nullable = false)
     private BigDecimal lon;
-    private Integer apronNumber;
+    private Integer apronQuantity;
 }

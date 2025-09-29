@@ -8,5 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface StationRepository extends JpaRepository<Station, Long> {
+    boolean existsByStationId(String stationId);
+
     Optional<Station> findByStationId(String departureStationId);
 }

@@ -18,7 +18,7 @@ public class RouteController {
     private final RouteService routeService;
 
     @PostMapping
-    public ResponseEntity<?> addAllRoutes (@RequestBody RouteRequestDto[] routeRequestDto){
+    public ResponseEntity<String> addAllRoutes (@RequestBody RouteRequestDto[] routeRequestDto){
         return ResponseEntity.status(routeService.addAll (routeRequestDto))
                 .body("Saved " + routeRequestDto.length + " routes");
     }

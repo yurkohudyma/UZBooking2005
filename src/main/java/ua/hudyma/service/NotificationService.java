@@ -36,7 +36,7 @@ public class NotificationService {
             throw new IllegalArgumentException("routeId in ticket " + latestTicketOpt.getId() + " is EMPTY");
         }
         var route = routeRepository.findByRouteId(routeId).orElseThrow();
-        var apronQuantity = route.getDepartureStation().getApronNumber();
+        var apronQuantity = route.getDepartureStation().getApronQuantity();
         var generatedApronNumber = generateApronNumber(apronQuantity);
 
         notification.setPassenger(passenger);

@@ -15,7 +15,7 @@ public class TimetableController {
     private final TimetableService timetableService;
 
     @PostMapping
-    public ResponseEntity<?> addTimetable (@RequestBody TimetableRequestDto dto){
+    public ResponseEntity<String> addTimetable (@RequestBody TimetableRequestDto dto){
         return ResponseEntity.status(timetableService.addTimetable (dto))
                 .body("timetable added for route " + dto.routeId());
     }

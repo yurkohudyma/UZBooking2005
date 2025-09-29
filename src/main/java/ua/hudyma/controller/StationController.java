@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ua.hudyma.domain.Station;
+import ua.hudyma.dto.StationTimingRequestDto;
 import ua.hudyma.service.StationService;
 
 @RestController
@@ -18,8 +19,16 @@ public class StationController {
     private final StationService stationService;
 
     @PostMapping
-    public ResponseEntity<?> addStations (@RequestBody Station[] stations){
-        return ResponseEntity.status(stationService.addAllStations (stations))
+    public ResponseEntity<String> addStations(@RequestBody Station[] stations) {
+        return ResponseEntity.status(stationService.addAllStations(stations))
                 .body("Saved " + stations.length + " stations");
+    }
+
+    @PostMapping("/addTimings")
+    public ResponseEntity<String> addStationTimings(
+            @RequestBody StationTimingRequestDto[] stationTimingsReqDto) {
+        return ResponseEntity.status(stationService.addAllStationTimings(stationTimingsReqDto))
+                .body("Saved " + stationTimingsReqDto.length + " stationTimings/stations");
+
     }
 }
