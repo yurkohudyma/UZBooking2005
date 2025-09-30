@@ -11,12 +11,8 @@ import ua.hudyma.dto.RouteSearchResponseDto;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.StationRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +33,7 @@ public class SearchService {
             throw new IllegalArgumentException("Station " + departureStationId + " does NOT exist");
         }
         var routesList = routeRepository.findAll();
+
         var resultList = new ArrayList<RouteSearchResponseDto>();
         for (Route route : routesList) {
             var interstationList = route.getTimetable().getInterStationsList();
@@ -49,13 +46,13 @@ public class SearchService {
                         .plusMinutes(5)
                         .isAfter(LocalDateTime.now())) {
                     departureStation = st;
-                    continue;
-                    //todo коротче, затик зі станціями... Жмеринка - Перемишль не знаходить тому, що
-                    //todo на момент переходу для знаходження Перемишля цикл вже проітерований до кінця (((
                 }
-                if (st.getStationId().equals(arrivalStationId) && departureStation != null) {
-                    arrivalStation = st;
-                    break;
+                if (departureStation != null) {
+                    var arrivalMatch = findArrivalNewIterator(arrivalStationId, interstationList);
+                    if (arrivalMatch != null) {
+                        arrivalStation = arrivalMatch;
+                        break;
+                    }
                 }
             }
             if (departureStation != null && arrivalStation != null) {
@@ -69,5 +66,20 @@ public class SearchService {
             }
         }
         return resultList;
+    }
+
+    private StationTiming findArrivalNewIterator(String arrivalStationId, List<StationTiming> interstationList) {
+        for (StationTiming st : interstationList) {
+            if (st.getStationId().equals(arrivalStationId)) {
+                return st;
+            }
+        }
+        return null;
+    }
+
+    private boolean routeIsDue(Route route) {
+        return route.getTimetable().getClosestDepartureDateAssigned()
+                .plusMinutes(5)
+                .isAfter(LocalDateTime.now());
     }
 }

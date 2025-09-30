@@ -77,9 +77,8 @@ public class TimetableService {
 
     private LocalDateTime updateClosestDate(Timetable tt) {
         return switch (tt.getFrequencyType()) {
-            case DAILY -> tt.getClosestDepartureDateAssigned().plusDays(1);
+            case DAILY, SPECIAL -> tt.getClosestDepartureDateAssigned().plusDays(1);
             case ODD_EVEN ->  tt.getClosestDepartureDateAssigned().plusDays(2);
-            case SPECIAL -> tt.getClosestDepartureDateAssigned();
         };
     }
 }
