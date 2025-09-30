@@ -23,8 +23,6 @@ public class RouteController {
                 .body("Saved " + routeRequestDto.length + " routes");
     }
 
-    //todo show route's all stations with timings
-
     @GetMapping
     public ResponseEntity<List<RouteStationResponseDto>> showRoutesStations (
             @RequestParam String routeId){

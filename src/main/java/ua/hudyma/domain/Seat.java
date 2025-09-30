@@ -10,9 +10,10 @@ public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String seatId;
-
     @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL)
     private Ticket ticket;
+    @ManyToOne
+    @JoinColumn(name = "train_car_id")
+    private TrainCar trainCar;
 }
