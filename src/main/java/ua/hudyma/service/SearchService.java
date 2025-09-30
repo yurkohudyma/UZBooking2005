@@ -13,7 +13,10 @@ import ua.hudyma.repository.StationRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,27 @@ import java.util.List;
 public class SearchService {
     private final RouteRepository routeRepository;
     private final StationRepository stationRepository;
+
+    @Transactional(readOnly = true)
+    public List<RouteSearchResponseDto> findRoutesByTransitStation(String stationId) {
+        if (!stationRepository.existsByStationId(stationId)) {
+            throw new IllegalArgumentException("Station " + stationId + " DOES not exist");
+        }
+        return routeRepository
+                .findAll()
+                .stream()
+                .flatMap(route -> route
+                        .getTimetable()
+                        .getInterStationsList()
+                        .stream()
+                        .filter(st -> st.getStationId().equals(stationId)
+                        ).map(st -> new RouteSearchResponseDto(
+                                route.getRouteId(),
+                                route.getTimetable().getClosestDepartureDateAssigned(),
+                                st.getDepartureTime(),
+                                st.getArrivalTime())
+                        )).toList();
+    }
 
     @Transactional(readOnly = true)
     public List<RouteSearchResponseDto> searchRouteBetweenStations(RouteSearchRequestDto requestDto) {

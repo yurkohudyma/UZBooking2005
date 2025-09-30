@@ -2,10 +2,7 @@ package ua.hudyma.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.hudyma.dto.RouteSearchRequestDto;
 import ua.hudyma.dto.RouteSearchResponseDto;
 import ua.hudyma.service.SearchService;
@@ -23,5 +20,11 @@ public class SearchController {
             @RequestBody RouteSearchRequestDto requestDto){
         return ResponseEntity.ok(searchService
                 .searchRouteBetweenStations(requestDto));
+    }
+
+    @GetMapping("/station")
+    public ResponseEntity<List<RouteSearchResponseDto>> searchByStation (
+            @RequestParam String stationId){
+       return ResponseEntity.ok(searchService.findRoutesByTransitStation(stationId));
     }
 }

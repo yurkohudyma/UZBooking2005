@@ -6,5 +6,7 @@ import ua.hudyma.domain.Route;
 import java.util.Optional;
 
 public interface RouteRepository extends JpaRepository <Route, Long> {
+    boolean existsByRouteId(String routeId);
+
     Optional<Route> findByRouteId(String routeId);
 }

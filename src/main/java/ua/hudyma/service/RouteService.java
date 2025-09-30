@@ -4,13 +4,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Route;
+import ua.hudyma.domain.Station;
+import ua.hudyma.domain.StationTiming;
 import ua.hudyma.dto.RouteRequestDto;
+import ua.hudyma.dto.RouteStationResponseDto;
 import ua.hudyma.exception.EntityNotCreatedException;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.StationRepository;
 
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.Comparator.*;
+import static java.util.stream.Collectors.toCollection;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +38,35 @@ public class RouteService {
             throw new EntityNotCreatedException("Routes have not been added");
         }
         return HttpStatus.CREATED;
+    }
+
+    @Transactional(readOnly = true)
+    public List<RouteStationResponseDto> showRoutesStations(String routeId) {
+        var route = routeRepository
+                .findByRouteId(routeId)
+                .orElseThrow(
+                () -> new IllegalArgumentException("Route " + routeId + " DOES not exist"));
+
+        return route
+                .getTimetable()
+                .getInterStationsList()
+                .stream()
+                .sorted(comparing(
+                        StationTiming::getDepartureTime,
+                        nullsLast(naturalOrder())))
+                .map(st -> new RouteStationResponseDto(
+                        getStationNameByStationId(st.getStationId()),
+                        st.getArrivalTime(),
+                        st.getDepartureTime()
+                ))
+                .toList();
+    }
+
+    private String getStationNameByStationId(String stationId) {
+        return stationRepository
+                .findByStationId(stationId)
+                .map(Station::getName)
+                .orElseThrow();
     }
 
     private Route mapToRoute(RouteRequestDto dto) {
