@@ -23,5 +23,7 @@ public class Timetable {
     private LocalDateTime closestDepartureDateAssigned;
     @OneToMany(mappedBy = "timetable")
     private List<StationTiming> interStationsList;
+    @OneToMany(mappedBy = "timetable")
+    private List<TrainCar> trainCarList;
 
 }

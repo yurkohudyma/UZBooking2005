@@ -13,11 +13,14 @@ public class TrainCar {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
+    private String trainCarId;
     @Enumerated(value = EnumType.STRING)
     private TrainCarType trainCarType;
     @OneToMany(mappedBy = "trainCar")
     private List<Seat> seatList;
+    @ManyToOne
+    @JoinColumn(name = "timetable_id")
+    private Timetable timetable;
     private Integer orderNumber;
-
-    //todo add automatic additional traincar coupling //TrainService
 }

@@ -19,7 +19,10 @@ import ua.hudyma.util.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.util.Comparator.comparing;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +59,8 @@ public class TicketService {
         if (isSeatTaken (routeId, seatId)){
             throw new SeatIsTakenException("Seat "+ seatId + " is taken");
         }
+        //todo add automatic additional traincar coupling when it's full
+        // TrainService
         seat.setSeatId(seatId);
         seatRepository.save(seat);
         ticket.setSeat(seat);
@@ -73,6 +78,7 @@ public class TicketService {
         return ticketRepository
                 .findByPassengerIdOrderByDepartureDateAsc(passengerId)
                 .stream()
+                .sorted(comparing(Ticket::getDepartureDate))
                 .map(ticket -> new TicketResponseDto(
                         ticket.getTicketId(),
                         ticket.getRouteId(),
