@@ -71,9 +71,7 @@ public class TrainCarService {
     @Transactional
     public HttpStatus setTrainCarToRoute (String routeId, String trainCarId){
         var timetable = getRoute(routeId).getTimetable();
-        var trainCar = trainCarRepository.findByTrainCarId (trainCarId)
-                .orElseThrow(() -> new IllegalArgumentException("TrainCar "
-                + trainCarId + " has NOT been found"));
+        var trainCar = getTrainCar(trainCarId);
         try {
             trainCar.setTimetable(timetable);
         } catch (Exception e) {
@@ -82,7 +80,18 @@ public class TrainCarService {
         return HttpStatus.CREATED;
     }
 
-    private Route getRoute(String routeId) {
+    public TrainCar getTrainCar(Integer trainOrderNumber) {
+        return trainCarRepository.findByOrderNumber(trainOrderNumber)
+                .orElseThrow(() -> new IllegalArgumentException("TrainCar "
+                        + trainOrderNumber + " has NOT been found"));
+    }
+    public TrainCar getTrainCar(String trainCarId) {
+        return trainCarRepository.findByTrainCarId(trainCarId)
+                .orElseThrow(() -> new IllegalArgumentException("TrainCar "
+                        + trainCarId + " has NOT been found"));
+    }
+
+    public Route getRoute(String routeId) {
         return routeRepository
                 .findByRouteId(routeId)
                 .orElseThrow(() -> new IllegalArgumentException("Route "

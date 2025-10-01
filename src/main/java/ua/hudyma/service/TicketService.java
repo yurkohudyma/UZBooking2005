@@ -4,13 +4,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Seat;
 import ua.hudyma.domain.Ticket;
+import ua.hudyma.domain.TrainCar;
 import ua.hudyma.dto.TicketRequestDto;
 import ua.hudyma.dto.TicketResponseDto;
 import ua.hudyma.exception.DtoObligatoryFieldsAreNullException;
 import ua.hudyma.exception.EntityNotCreatedException;
 import ua.hudyma.exception.SeatIsTakenException;
+import ua.hudyma.exception.TicketOverbookingException;
 import ua.hudyma.repository.PassengerRepository;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.SeatRepository;
@@ -23,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
+import static ua.hudyma.util.IdGenerator.generateUzTicketId;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +36,10 @@ public class TicketService {
     private final PassengerRepository passengerRepository;
     private final SeatRepository seatRepository;
     private final RouteRepository routeRepository;
+    private final TrainCarService trainCarService;
 
 
+    @Transactional
     public HttpStatus addTicket(TicketRequestDto requestDto) {
         if (checkObligatoryFields(requestDto)){
             throw new DtoObligatoryFieldsAreNullException("Some dto compulsory fields NOT provided");
@@ -59,12 +65,28 @@ public class TicketService {
         if (isSeatTaken (routeId, seatId)){
             throw new SeatIsTakenException("Seat "+ seatId + " is taken");
         }
-        //todo add automatic additional traincar coupling when it's full
-        // TrainService
+        var trainCarNumber = requestDto.trainOrderNumber();
+        var soldTicketsQuantityForTrainCar = trainCarService
+                .getAllTrainCarSoldSeats(trainCarNumber).size();
+        TrainCar trainCar;
+        try {
+            trainCar = route
+                    .getTimetable()
+                    .getTrainCarList()
+                    .get(trainCarNumber - 1);
+        } catch (Exception e) {
+            throw new IllegalStateException("Cannot fetch trainCar " + trainCarNumber + " from Route DB, as none is coupled so far");
+        }
+        var quantityPerTrainCarType = trainCar.getTrainCarType().getSeats();
+        if (quantityPerTrainCarType <= soldTicketsQuantityForTrainCar){
+            throw new TicketOverbookingException("Trying to book a new ticket for this TrainCar " + trainCarNumber + ", " +
+                    "while none is available. Please wait until new TrainCar is coupled and booking system has been refreshed");
+        }
         seat.setSeatId(seatId);
+        seat.setTrainCar(trainCar);
         seatRepository.save(seat);
         ticket.setSeat(seat);
-        ticket.setTicketId(IdGenerator.generateUzTicketId());
+        ticket.setTicketId(generateUzTicketId());
 
         try {
             ticketRepository.save(ticket);

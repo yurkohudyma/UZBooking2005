@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum TrainCarType {
-    SEAT("Sitting", "Sitting car, without sleeping places", 64),
+    SEAT("Sitting", "Sitting car, without sleeping places", 7),
     PLATZKART("Platzkart", "Open-plan sleeping car", 54),
     COUPE("Coupe", "4-berth compartment car", 36),
     SV("SV", "2-berth luxury compartment car", 18),
