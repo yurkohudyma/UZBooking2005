@@ -18,6 +18,9 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             Integer trainCarId
     );
 
+    List<Ticket> findByRouteIdAndSeat_TrainCar_OrderNumber(
+            String routeId, Integer trainNumber);
+
 
     List<Ticket> findByPassengerIdOrderByDepartureDateAsc(Long passengerId);
 

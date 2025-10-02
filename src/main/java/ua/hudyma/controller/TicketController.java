@@ -18,7 +18,7 @@ public class TicketController {
     private final TicketService ticketService;
 
     @PostMapping
-    public ResponseEntity<?> addTicket (@RequestBody TicketRequestDto ticketRequestDto){
+    public ResponseEntity<String> addTicket (@RequestBody TicketRequestDto ticketRequestDto){
         return ResponseEntity.status(ticketService.addTicket (ticketRequestDto))
                 .body("Ticket saved");
     }
@@ -26,5 +26,12 @@ public class TicketController {
     @GetMapping
     public ResponseEntity<List<TicketResponseDto>> getTickets (@RequestParam Long passengerId){
         return ResponseEntity.ok(ticketService.getTickets(passengerId));
+    }
+
+    @GetMapping("/getSeats")
+    public ResponseEntity<List<String>> getAllTicketSeatsPerRouteAndTrainCarNumber (
+            @RequestParam String routeId, @RequestParam Integer trainCarNumber) {
+        return ResponseEntity.ok(ticketService
+                .findAllTicketsSoldSeatsByRouteAndTrainCar(routeId, trainCarNumber));
     }
 }

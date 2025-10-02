@@ -1,7 +1,5 @@
 package ua.hudyma.dto;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-
 import java.math.BigDecimal;
 
 public record TicketRequestDto(

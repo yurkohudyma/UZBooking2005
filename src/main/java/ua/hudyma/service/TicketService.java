@@ -80,7 +80,7 @@ public class TicketService {
         var seatId = requestDto.seatId();
         if (isSeatTaken (seatId, routeId, trainCarNumber)){
             throw new SeatIsTakenException("Seat "+ seatId + " is taken in route " + routeId + " in traincar " + trainCarNumber);
-        } //todo doesn't work
+        }
         seat.setSeatId(seatId);
         seat.setTrainCar(trainCar);
         seatRepository.save(seat);
@@ -93,6 +93,17 @@ public class TicketService {
             throw new EntityNotCreatedException("Ticket Not Added");
         }
         return HttpStatus.CREATED;
+    }
+
+    public List<String> findAllTicketsSoldSeatsByRouteAndTrainCar(
+            String routeId, Integer trainNumber) {
+        return ticketRepository.findByRouteIdAndSeat_TrainCar_OrderNumber
+                (routeId, trainNumber)
+                .stream()
+                .map(Ticket::getSeat)
+                .map(Seat::getSeatId)
+                .sorted()
+                .toList();
     }
 
     public List<TicketResponseDto> getTickets(Long passengerId) {
