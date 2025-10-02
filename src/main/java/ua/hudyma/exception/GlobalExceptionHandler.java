@@ -13,6 +13,16 @@ import static java.time.LocalDateTime.now;
 public class GlobalExceptionHandler {
 
 
+    @ExceptionHandler(TicketOverbookingException.class)
+    public ResponseEntity<ErrorResponse> handleDtoObligatoryFieldsAreNullException(
+            TicketOverbookingException ex) {
+        var error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                now()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(DtoObligatoryFieldsAreNullException.class)
     public ResponseEntity<ErrorResponse> handleDtoObligatoryFieldsAreNullException(

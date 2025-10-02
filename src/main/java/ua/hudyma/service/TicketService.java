@@ -18,11 +18,9 @@ import ua.hudyma.repository.PassengerRepository;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.SeatRepository;
 import ua.hudyma.repository.TicketRepository;
-import ua.hudyma.util.IdGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Comparator;
 import java.util.List;
 
 import static java.util.Comparator.comparing;
@@ -61,10 +59,6 @@ public class TicketService {
                 .from(timetable.getClosestDepartureDateAssigned()));
         var seat = new Seat();
 
-        var seatId = requestDto.seatId();
-        if (isSeatTaken (routeId, seatId)){
-            throw new SeatIsTakenException("Seat "+ seatId + " is taken");
-        }
         var trainCarNumber = requestDto.trainOrderNumber();
         var soldTicketsQuantityForTrainCar = trainCarService
                 .getAllTrainCarSoldSeats(trainCarNumber).size();
@@ -75,13 +69,18 @@ public class TicketService {
                     .getTrainCarList()
                     .get(trainCarNumber - 1);
         } catch (Exception e) {
-            throw new IllegalStateException("Cannot fetch trainCar " + trainCarNumber + " from Route DB, as none is coupled so far");
+            throw new IllegalStateException("Cannot fetch trainCar " + trainCarNumber +
+                    " from Route DB, as none is coupled so far");
         }
         var quantityPerTrainCarType = trainCar.getTrainCarType().getSeats();
         if (quantityPerTrainCarType <= soldTicketsQuantityForTrainCar){
-            throw new TicketOverbookingException("Trying to book a new ticket for this TrainCar " + trainCarNumber + ", " +
-                    "while none is available. Please wait until new TrainCar is coupled and booking system has been refreshed");
+            throw new TicketOverbookingException("Trying to book a new ticket for train-car " + trainCarNumber + ", " +
+                    "while none is available. Please wait until new TrainCar is coupled and booking system is refreshed");
         }
+        var seatId = requestDto.seatId();
+        if (isSeatTaken (seatId, routeId, trainCarNumber)){
+            throw new SeatIsTakenException("Seat "+ seatId + " is taken in route " + routeId + " in traincar " + trainCarNumber);
+        } //todo doesn't work
         seat.setSeatId(seatId);
         seat.setTrainCar(trainCar);
         seatRepository.save(seat);
@@ -117,8 +116,9 @@ public class TicketService {
                 ticket.getPassenger().getProfile().getSurname());
     }
 
-    private boolean isSeatTaken(String seatId, String routeId) {
-        return ticketRepository.existsByRouteIdAndSeatId(routeId, seatId) > 0;
+    private boolean isSeatTaken(String seatId, String routeId, Integer trainCarNumber) {
+        return ticketRepository.existsByRouteIdAndSeat_SeatIdAndSeat_TrainCar_OrderNumber
+                (routeId, seatId, trainCarNumber);
     }
 
     private boolean checkObligatoryFields(TicketRequestDto requestDto) {

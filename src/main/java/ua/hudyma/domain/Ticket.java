@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -31,5 +33,7 @@ public class Ticket {
     @Column(name = "departure_time")
     @JsonFormat(pattern = "HH:mm")
     private LocalTime departureTime;
+    @CreationTimestamp
+    private LocalDateTime createdOn;
 
 }
