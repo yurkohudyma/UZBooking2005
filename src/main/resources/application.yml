@@ -1,9 +1,12 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/uzbooking2025
+
+  r2dbc:
+    url: r2dbc:mysql://localhost:3306/uzbooking2025
     username: root
     password: root
-    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
 
   application:
     name: UZBooking2025
