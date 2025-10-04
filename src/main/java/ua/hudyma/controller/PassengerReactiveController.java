@@ -10,7 +10,7 @@ import ua.hudyma.service.PassengerReactiveService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/passengers_2")
+@RequestMapping("/passengers")
 
 public class PassengerReactiveController {
     private final PassengerReactiveService passengerReactiveService;
