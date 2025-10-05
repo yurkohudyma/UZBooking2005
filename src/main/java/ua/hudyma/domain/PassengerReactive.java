@@ -4,11 +4,14 @@ import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.data.annotation.Id;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Table(name = "passengers_reactive")
 @Data
 public class PassengerReactive {
     @Id
     private Long id;
     private String name;
+    private BigDecimal balance;
 }
 

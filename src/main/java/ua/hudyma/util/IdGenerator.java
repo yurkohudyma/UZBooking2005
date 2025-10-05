@@ -2,6 +2,7 @@ package ua.hudyma.util;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class IdGenerator {
     private final static SecureRandom secureRandom = new SecureRandom();
@@ -15,6 +16,10 @@ public class IdGenerator {
         String letters = generateRandomUppercaseLetters(letterLength);
         String numbers = generateRandomDigits(numberLength);
         return letters + numbers;
+    }
+
+    public static Long generateLongId (){
+        return ThreadLocalRandom.current().nextLong();
     }
 
     ////CBFB48A0-AC1D24F1-0001
