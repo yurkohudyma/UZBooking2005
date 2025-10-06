@@ -57,7 +57,6 @@ public class TicketService {
                 .from(timetable.getClosestDepartureDateAssigned()));
         ticket.setDepartureTime(LocalTime
                 .from(timetable.getClosestDepartureDateAssigned()));
-        var seat = new Seat();
 
         var trainCarNumber = requestDto.trainOrderNumber();
         var soldTicketsQuantityForTrainCar = trainCarService
@@ -81,6 +80,7 @@ public class TicketService {
         if (isSeatTaken (seatId, routeId, trainCarNumber)){
             throw new SeatIsTakenException("Seat "+ seatId + " is taken in route " + routeId + " in traincar " + trainCarNumber);
         }
+        var seat = new Seat();
         seat.setSeatId(seatId);
         seat.setTrainCar(trainCar);
         seatRepository.save(seat);

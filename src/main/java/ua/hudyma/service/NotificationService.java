@@ -3,14 +3,17 @@ package ua.hudyma.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Notification;
 import ua.hudyma.exception.EntityNotCreatedException;
+import ua.hudyma.exception.EntityNotDeletedException;
 import ua.hudyma.repository.NotificationRepository;
 import ua.hudyma.repository.PassengerRepository;
 import ua.hudyma.repository.RouteRepository;
 import ua.hudyma.repository.TicketRepository;
 
 import java.security.SecureRandom;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -60,5 +63,35 @@ public class NotificationService {
     private static int generateApronNumber(Integer apronQuantity) {
         var random = new SecureRandom().nextInt(apronQuantity);
         return random > 0 ? random : generateApronNumber(apronQuantity);
+    }
+
+    @Transactional
+    public HttpStatus delete(Long id) {
+        try {
+            notificationRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new EntityNotDeletedException("Notification not Deleted");
+        }
+        return HttpStatus.NO_CONTENT;
+    }
+
+    public String deleteInBatch(List<Long> list) {
+        try {
+            notificationRepository.deleteByIds(list);
+        } catch (Exception e) {
+            throw new EntityNotDeletedException("Batch of notifications not DELETED");
+        }
+        return "Deleted " + list.size() + " notifications in BATCH";
+    }
+
+    @Transactional
+    public String deleteIterable (List<Long> list){
+        var entityList = notificationRepository.findAllById(list);
+        try {
+            notificationRepository.deleteAll(entityList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "Deleted " + list.size() + " notifications";
     }
 }
