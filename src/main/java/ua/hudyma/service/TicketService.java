@@ -106,6 +106,11 @@ public class TicketService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public Ticket getTicket(Long ticketId) {
+        return ticketRepository.findById(ticketId).orElseThrow();
+    }
+
     public List<TicketResponseDto> getTickets(Long passengerId) {
         return ticketRepository
                 .findByPassengerIdOrderByDepartureDateAsc(passengerId)

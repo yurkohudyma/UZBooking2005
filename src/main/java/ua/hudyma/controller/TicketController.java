@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.hudyma.domain.Ticket;
 import ua.hudyma.dto.TicketRequestDto;
 import ua.hudyma.dto.TicketResponseDto;
 import ua.hudyma.service.TicketService;
@@ -33,5 +34,10 @@ public class TicketController {
             @RequestParam String routeId, @RequestParam Integer trainCarNumber) {
         return ResponseEntity.ok(ticketService
                 .findAllTicketsSoldSeatsByRouteAndTrainCar(routeId, trainCarNumber));
+    }
+
+    @GetMapping("/getTicket")
+    public ResponseEntity<Ticket> getTicket (@RequestParam Long ticketId){
+        return ResponseEntity.ok(ticketService.getTicket(ticketId));
     }
 }

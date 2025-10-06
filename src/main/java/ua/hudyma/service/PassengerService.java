@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Passenger;
 import ua.hudyma.domain.Profile;
 import ua.hudyma.enums.PassengerStatus;
@@ -44,6 +45,11 @@ public class PassengerService {
             throw new EntityNotCreatedException("Passengers have not been generated");
         }
         return HttpStatus.CREATED;
+    }
+
+    @Transactional(readOnly = true)
+    public Passenger getUserById(Long passengerId) {
+        return passengerRepository.findById(passengerId).orElseThrow();
     }
 
     private Passenger create() {

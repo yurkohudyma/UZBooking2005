@@ -27,4 +27,9 @@ public class PassengerController {
                         .generatePassengers (number))
                 .body("Generated " + number + " passengers");
     }
+
+    @GetMapping
+    public ResponseEntity<Passenger> getPassenger (@RequestParam Long passengerId){
+        return ResponseEntity.ok(passengerService.getUserById (passengerId));
+    }
 }

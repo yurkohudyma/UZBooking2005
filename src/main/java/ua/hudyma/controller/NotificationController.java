@@ -19,5 +19,4 @@ public class NotificationController {
                 .status(notificationService
                         .addNotification(passengerId)).body("Notification added");
     }
-
 }

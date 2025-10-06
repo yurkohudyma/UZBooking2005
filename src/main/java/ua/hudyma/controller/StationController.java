@@ -24,15 +24,10 @@ public class StationController {
                 .body("Saved " + stations.length + " stations");
     }
 
-
-
     @PostMapping("/addTimings")
     public ResponseEntity<String> addStationTimings(
             @RequestBody StationTimingRequestDto[] stationTimingsReqDto) {
         return ResponseEntity.status(stationService.addAllStationTimings(stationTimingsReqDto))
                 .body("Saved " + stationTimingsReqDto.length + " stationTimings/stations");
-
     }
-
-
 }

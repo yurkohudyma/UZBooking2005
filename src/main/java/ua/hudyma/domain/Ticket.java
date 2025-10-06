@@ -1,6 +1,7 @@
 package ua.hudyma.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
@@ -22,6 +23,7 @@ public class Ticket {
     private String routeId;
     @OneToOne
     @JoinColumn(name = "seat_id")
+    @JsonManagedReference
     private Seat seat;
     @Positive
     private BigDecimal ticketPrice;
