@@ -1,5 +1,9 @@
-spring:
+server:
+  servlet:
+    async:
+      timeout: 300000 # 5 хвилин у мілісекундах <- потрібно для довгих запитів, інакше AsyncRequestTimeoutException.
 
+spring:
   r2dbc:
     url: r2dbc:mysql://localhost:3306/uzbooking2025
     username: root

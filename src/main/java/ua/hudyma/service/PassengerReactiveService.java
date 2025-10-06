@@ -26,6 +26,23 @@ public class PassengerReactiveService {
     }
 
     public Mono<Void> createPassenger(int number) {
+        return Flux.range(1, number)
+                .map(i -> {
+                    var passenger = new PassengerReactive();
+                    passenger.setName(IdGenerator.generateId(3, 20));
+                    passenger.setBalance(BigDecimal
+                            .valueOf(ThreadLocalRandom.current().nextDouble() * 1000));
+                    return passenger;
+                })
+                .flatMap(passenger ->
+                                r2dbcEntityTemplate.insert(PassengerReactive.class).using(passenger),
+                        32 // concurrency, можеш змінити за потреби
+                )
+                //.doOnNext(p -> System.out.println("Inserted: " + p))
+                .then();
+    }
+
+    /*public Mono<Void> createPassenger(int number) {
         var list = Stream
                 .generate(
                         () -> {
@@ -48,5 +65,5 @@ public class PassengerReactiveService {
                 .then();
 
 
-    }
+    }*/
 }

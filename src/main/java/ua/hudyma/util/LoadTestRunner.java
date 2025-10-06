@@ -18,7 +18,7 @@ public class LoadTestRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        int totalRequests = 500;
+        int totalRequests = 100;
         int concurrency = 1000;
 
         ExecutorService executor = Executors.newFixedThreadPool(concurrency);
@@ -41,7 +41,7 @@ public class LoadTestRunner implements CommandLineRunner {
             });
         }
 
-        latch.await(); // чекаємо на завершення всіх
+        latch.await();
         long totalTime = System.currentTimeMillis() - startTime;
 
         executor.shutdown();
