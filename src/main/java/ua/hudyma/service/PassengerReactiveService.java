@@ -12,7 +12,6 @@ import ua.hudyma.util.IdGenerator;
 
 import java.math.BigDecimal;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -36,34 +35,8 @@ public class PassengerReactiveService {
                 })
                 .flatMap(passenger ->
                                 r2dbcEntityTemplate.insert(PassengerReactive.class).using(passenger),
-                        32 // concurrency, можеш змінити за потреби
+                        32
                 )
-                //.doOnNext(p -> System.out.println("Inserted: " + p))
                 .then();
     }
-
-    /*public Mono<Void> createPassenger(int number) {
-        var list = Stream
-                .generate(
-                        () -> {
-                            var passenger = new PassengerReactive();
-                            //passenger.setId(IdGenerator.generateLongId());
-                            passenger.setName(IdGenerator
-                                    .generateId(3, 20));
-                            passenger.setBalance(BigDecimal
-                                    .valueOf(ThreadLocalRandom.current().nextDouble() * 1000));
-                            return passenger;
-                        }
-                )
-                .limit(number)
-                .toList();
-        return Flux.fromIterable(list)
-                .flatMap(passenger -> r2dbcEntityTemplate
-                        .insert(PassengerReactive.class)
-                        .using(passenger))
-                //.doOnNext(p -> System.out.println("Inserted: " + p))
-                .then();
-
-
-    }*/
 }

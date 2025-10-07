@@ -25,7 +25,7 @@ public class RandomAccountService {
                 passengerReactiveRepository.findById(accountId)
                         .flatMap(account -> {
                             if (account.getBalance().compareTo(amount) < 0) {
-                                return Mono.empty(); // не оновлюємо
+                                return Mono.empty();
                             }
                             return simulateExternalCall()
                                     .then(Mono.defer(() -> {
