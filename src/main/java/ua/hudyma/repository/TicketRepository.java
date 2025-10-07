@@ -24,6 +24,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByPassengerIdOrderByDepartureDateAsc(Long passengerId);
 
+    Optional<Ticket> findByTicketId(String ticketId);
+
     Optional<Ticket> findFirstByPassengerIdOrderByDepartureDateAsc(Long passengerId);
 
     @Query("""

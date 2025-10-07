@@ -107,8 +107,8 @@ public class TicketService {
     }
 
     @Transactional(readOnly = true)
-    public Ticket getTicket(Long ticketId) {
-        return ticketRepository.findById(ticketId).orElseThrow();
+    public Ticket getTicket(Long id) {
+        return ticketRepository.findById(id).orElseThrow();
     }
 
     public List<TicketResponseDto> getTickets(Long passengerId) {

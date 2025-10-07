@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.hudyma.domain.Passenger;
 import ua.hudyma.domain.Profile;
-import ua.hudyma.enums.PassengerStatus;
 import ua.hudyma.exception.EntityNotCreatedException;
 import ua.hudyma.repository.PassengerRepository;
 
