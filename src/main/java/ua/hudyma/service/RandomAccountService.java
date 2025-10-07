@@ -18,7 +18,7 @@ public class RandomAccountService {
     private final TransactionalOperator txOperator;
 
     public Mono<Void> debitRandomAccount() {
-        long accountId = ThreadLocalRandom.current().nextLong(1004, 37_835); // ID від 1 до 37_835
+        long accountId = ThreadLocalRandom.current().nextLong(1004, 37_835);
         BigDecimal amount = BigDecimal.valueOf(ThreadLocalRandom.current().nextDouble(5, 20));
 
         return txOperator.execute(status ->

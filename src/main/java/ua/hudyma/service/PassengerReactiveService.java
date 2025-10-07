@@ -34,7 +34,9 @@ public class PassengerReactiveService {
                     return passenger;
                 })
                 .flatMap(passenger ->
-                                r2dbcEntityTemplate.insert(PassengerReactive.class).using(passenger),
+                                r2dbcEntityTemplate
+                                        .insert(PassengerReactive.class)
+                                        .using(passenger),
                         32
                 )
                 .then();
