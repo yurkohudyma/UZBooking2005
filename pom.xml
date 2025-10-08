@@ -26,11 +26,10 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.openhtmltopdf</groupId>
-      <artifactId>openhtmltopdf-pdfbox</artifactId>
-      <version>1.0.10</version>
+      <groupId>org.xhtmlrenderer</groupId>
+      <artifactId>flying-saucer-pdf</artifactId>
+      <version>9.1.22</version>
     </dependency>
-
 
     <dependency>
       <groupId>org.springframework.boot</groupId>

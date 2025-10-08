@@ -13,8 +13,8 @@
 </head>
 <body>
 <div class="ticket">
-    <h2>Залізничний квиток</h2>
-    <table>
+    <h2>Посадковий документ <span th:text="${ticketId}"></span></h2>
+    <table border="1">
         <tr><td>Пасажир</td><td th:text="${name}"></td></tr>
         <tr><td>Поїзд</td><td th:text="${trainNumber}"></td></tr>
         <tr><td>Дата</td><td th:text="${date}"></td></tr>

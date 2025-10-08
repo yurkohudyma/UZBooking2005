@@ -48,8 +48,7 @@ public class TicketController {
 
     @GetMapping("/pdf")
     public void getTicketPdf (@RequestParam String ticketId,
-                              HttpServletResponse response) throws
-            DocumentException, IOException {
+                              HttpServletResponse response) throws IOException, DocumentException {
         ticketGeneratorService.generateTicketPdf(ticketId, response);
     }
 }

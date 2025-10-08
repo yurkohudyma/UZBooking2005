@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="uk" xml:lang="uk">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Квиток</title>
+  <style type="text/css">
+    body {
+      font-family: 'DejaVu Sans', serif;
+      margin: 0;
+      padding: 0;
+    }
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+    }
+    td, th {
+      border: 1px solid #000000;
+      padding: 0 5.4pt;
+    }
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    .no-border {
+      border: none;
+    }
+    .text-right {
+      text-align: right;
+    }
+    .text-center {
+      text-align: center;
+    }
+    .text-justify {
+      text-align: justify;
+    }
+    .strong {
+      font-weight: bold;
+    }
+    .small {
+      font-size: 11px;
+    }
+    .normal {
+      font-size: 13px;
+    }
+    .medium {
+      font-size: 15px;
+    }
+    .large {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+<div style="text-align: center; margin: 0;">
+  <table style="width: 680px; margin-left: 0;">
+    <tbody>
+    <tr>
+      <td rowspan="2" style="width: 70.2pt;">
+        <p class="text-center medium"><span>ТЕРМ #1</span></p>
+      </td>
+      <td colspan="3" style="width: 180.0pt;">
+        <p class="medium"><span class="strong normal">ПОСАДКОВИЙ ДОКУМЕНТ</span></p>
+      </td>
+      <td colspan="2" style="width: 212.4pt;">
+        <p class="medium"><span class="strong"><span th:text="${ticketId}"></span></span></p>
+      </td>
+      <td rowspan="2" style="width: 94.85pt;">
+        <p class="medium"><span class="strong small">ПН:400758126555</span></p>
+        <p class="medium"><span class="strong small">ФН:3001118925</span></p>
+        <p class="medium"><span class="strong small">ЗН:E31002064301</span></p>
+        <p class="medium"><span class="strong small">ФК:1169521</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="3" style="width: 180.0pt;">
+        <p class="small"><span>АТ «УКРЗАЛІЗНИЦЯ»</span></p>
+        <p class="small"><span>м. Київ, вул. Єжи Ґедройця, буд.5</span></p>
+      </td>
+      <td colspan="2" style="width: 212.4pt;">
+        <p class="medium"><span class="strong">#5Ю6-Н1-2693564-0710</span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="width: 70.2pt;">
+        <p class="normal text-justify"><span>МПС</span></p>
+      </td>
+      <td colspan="5" style="width: 392.4pt;">
+        <p style="text-indent: 14.05pt;"><span class="strong normal">ЦЕЙ ПОСАДКОВИЙ ДОКУМЕНТ Є ПІДСТАВОЮ ДЛЯ ПРОЇЗДУ</span></p>
+      </td>
+      <td style="width: 94.85pt;">
+        <p class="text-right normal"><span th:text="${issuedOn}"></span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="width: 143.65pt;">
+        <p class="medium"><span>Прізвище, Ім’я</span></p>
+      </td>
+      <td colspan="2" style="width: 267.3pt;">
+        <p class="medium"><span th:text="${name}"></span></p>
+      </td>
+      <td style="width: 51.65pt;">
+        <p class="medium"><span>Поїзд</span></p>
+      </td>
+      <td style="width: 94.85pt;">
+        <p class="text-right normal"><span class="strong"><span th:text="${trainNumber}"></span></span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" style="width: 82.85pt;">
+        <p class="medium"><span>Відправлення</span></p>
+      </td>
+      <td style="width: 60.8pt;">
+        <p class="medium"><span th:text="${fromId}"></span></p>
+      </td>
+      <td colspan="2" style="width: 267.3pt;">
+        <p class="strong medium"><span th:text="${from}"></span></p>
+      </td>
+      <td style="width: 51.65pt;">
+        <p class="medium"><span>Вагон</span></p>
+      </td>
+      <td style="width: 94.85pt;">
+        <p class="text-right normal"><span class="strong"><span th:text="${traincar}"></span></span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="2" style="width: 82.85pt;">
+        <p class="medium"><span>Призначення</span></p>
+      </td>
+      <td style="width: 60.8pt;">
+        <p class="medium"><span th:text="${toId}"></span></p>
+      </td>
+      <td colspan="2" style="width: 267.3pt;">
+        <p class="strong medium"><span th:text="${to}"></span></p>
+      </td>
+      <td style="width: 51.65pt;">
+        <p class="medium"><span>Місце</span></p>
+      </td>
+      <td style="width: 94.85pt;">
+        <p class="text-right normal"><span class="strong"><span th:text="${seat}"></span></span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="width: 143.65pt;">
+        <p class="medium"><span>Дата/час відпр.</span></p>
+      </td>
+      <td colspan="2" style="width: 267.3pt;">
+        <p class="strong medium"><span th:text="${datetimeDeparture}"></span></p>
+      </td>
+      <td rowspan="2" style="width: 51.65pt;">
+        <p class="medium"><span>Сервіс</span></p>
+      </td>
+      <td rowspan="2" style="width: 94.85pt;">
+        <p class="text-center small"><span>&nbsp;</span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="width: 143.65pt;">
+        <p class="medium"><span>Дата/час приб.</span></p>
+      </td>
+      <td colspan="2" style="width: 267.3pt;">
+      <p class="strong medium"><span th:text="${datetimeArrival}">ARR_DATETIME</span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="7" style="width: 557.45pt;">
+        <p class="normal"><span>ВАРТ=<span class="strong"><span th:text="${price}">PRICE</span> ГРН</span>(КВ.37.37+ПЛ.135.28+КЗБ.25.00+ПДВ.39.53)</span></p>
+        <p class="normal"><span># СТР.ВІДПОВІДАЛЬНОСТІ ПрАТ СК «ІНТЕР-ПОЛІС»КИЇВ, ВОЛОДИМИРСЬКА,69Т0800802956</span></p>
+        <p class="normal"><span class="strong">ЧАС ВІДПРАВЛЕННЯ КИЇВСЬКИЙ</span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="3" style="width: 143.65pt;">
+        <p class="text-center medium"><img src="src/main/resources/img/qr.PNG" /></p>
+      </td>
+      <td colspan="4" style="width: 413.8pt;">
+        <p class="small" style="margin-left: 4.5pt;"><span>Цей Посадковий документ є підставою для проїзду без звернення у касу.</span></p>
+        <p class="small" style="margin-left: 4.5pt;"><span>Посадковий документ є розрахунковим документом.</span></p>
+        <p class="small" style="margin-left: 4.5pt;"><span>Посадка здійснюється за предʼявленням документа, який посвідчує особу.</span></p>
+        <p class="small" style="margin-left: 4.5pt;"><span>У випадку роздруківки Посадкового документа у квитковій касі на бланку проїзного документа встановленого зразка Посадковий документ втрачає чинність.</span></p>
+        <p class="small" style="margin-left: 4.5pt;"><span>Повернення даного Посадкового документа можливе до відправлення поїзда.</span></p>
+      </td>
+    </tr>
+
+    <tr>
+      <td colspan="7" style="width: 557.45pt;">
+        <p class="small"><span>Допоможіть зберегти природу ‒ це в Ваших силах! Друкуйте Посадковий документ тільки у разі необхідності. Посадковий документ може бути збережений на електронному носії (смартфоні, планшеті тощо) для предʼявлення провіднику поїзда при посадці</span></p>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+
+<p style="margin-left: 63.0pt;"><span class="medium">ВІДОМОСТІ ДЛЯ ПАСАЖИРА</span></p>
+<p><span class="medium">&nbsp;</span></p>
+<p><span class="medium">Перевіряйте дату, номер і час відправлення поїзда.</span></p>
+<p><span class="medium">Поїздка пасажира починається зі станції, яка вказана в проїзному документі.</span></p>
+<p style="margin-left: 63.0pt;"><span class="medium">&nbsp;</span></p>
+<p style="margin-left: 63.0pt;"><span class="medium">INFORMATION FOR PASSENGERS</span></p>
+<p><span class="medium">&nbsp;</span></p>
+<p><span class="medium">Check the date, number and departure time of the train.</span></p>
+<p><span class="medium">The trip begins with a station, which is indicated in the travel ticket.</span></p>
+
+<table style="width: 739px;">
+  <tbody>
+  <tr>
+    <th style="width: 117.35pt;"><span class="small">ТИПИ ВАГОНІВ</span></th>
+    <th style="width: 117.05pt;"><span class="small">CARS TYPES</span></th>
+    <th style="width: 134.3pt;"><span class="small">УМОВНІ ПОЗНАЧКИ</span></th>
+    <th style="width: 185.7pt;"><span class="small">CONVENTIONS</span></th>
+  </tr>
+  <tr>
+    <td style="width: 117.35pt;">
+      <p class="small"><span>Л - 2‑місний, м’який</span></p>
+      <p class="small"><span>М - люкс 1‑місний,</span></p>
+      <p class="small"><span>3‑місний</span></p>
+      <p class="small"><span>К - купейний</span></p>
+      <p class="small"><span>П - плацкартний</span></p>
+      <p class="small"><span>О - загальний</span></p>
+      <p class="small"><span>С - сидячий</span></p>
+    </td>
+    <td style="width: 117.05pt;">
+      <p class="small"><span>Л - two-seater, soft-seated</span></p>
+      <p class="small"><span>М - deluxe single-seater,</span></p>
+      <p class="small"><span>three-seater</span></p>
+      <p class="small"><span>К - compartment</span></p>
+      <p class="small"><span>П - couchette</span></p>
+      <p class="small"><span>О - common</span></p>
+      <p class="small"><span>С - sitting</span></p>
+    </td>
+    <td style="width: 134.3pt;">
+      <p class="small"><span>тар - тариф</span></p>
+      <p class="small"><span>стр - страховий збір</span></p>
+      <p class="small"><span>кзб - комісійний збір</span></p>
+      <p class="small"><span>посл - вартість дод.послуг</span></p>
+      <p class="small"><span>пдв - податок на дод.вартість</span></p>
+      <p class="small"><span>г, п - готівкою</span></p>
+      <p class="small"><span>ч - за безготівк.розрахунком в касі</span></p>
+      <p class="small"><span>і - розрахунок через Інтернет</span></p>
+    </td>
+    <td style="width: 185.7pt;">
+      <p class="small"><span>тар - tariff</span></p>
+      <p class="small"><span>стр - insurance fee</span></p>
+      <p class="small"><span>кзб - commission fee</span></p>
+      <p class="small"><span>посл - cost of additional services</span></p>
+      <p class="small"><span>пдв - value added tax</span></p>
+      <p class="small"><span>г, п - cash</span></p>
+      <p class="small"><span>ч - cashless payment at the ticket office</span></p>
+      <p class="small"><span>і - payment via Internet</span></p>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
